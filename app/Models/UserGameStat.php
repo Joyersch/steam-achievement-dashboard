@@ -70,4 +70,9 @@ class UserGameStat extends Model
     {
         return $this->achieved / $this->total;
     }
+
+    public static function latestChanges()
+    {
+
+    }
 }

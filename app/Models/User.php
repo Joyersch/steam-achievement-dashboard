@@ -37,6 +37,11 @@ class User extends Authenticatable
         return User::where('name', $name)->first();
     }
 
+    public static function whereId(int $id): User|null
+    {
+        return User::where('id', $id)->first();
+    }
+
     public function latestStats()
     {
         return UserGameStat::getLatestStats($this);

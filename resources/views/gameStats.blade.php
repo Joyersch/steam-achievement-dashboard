@@ -1,4 +1,4 @@
 ﻿@foreach($stats as $stat)
     <br>
-    {{$stat->updated_at}} | {{$stat->completion()}}
+    {{$stat->created_at}} |{{$stat->updated_at}} | {{$stat->completion()}}
 @endforeach

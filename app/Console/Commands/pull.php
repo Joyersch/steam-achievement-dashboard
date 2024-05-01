@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\ActivityType;
 use App\Helpers\SteamApiHelper;
+use App\Models\Activity;
 use App\Models\Game;
 use App\Models\User;
 use App\Models\UserGameStat;
@@ -59,13 +61,35 @@ class pull extends Command
                     }
 
                     $userGameStats = UserGameStat::latestEntry($user, $game);
-                    if (!$userGameStats || $userGameStats->total != $total || $userGameStats->achieved != $achieved) {
+                    if (!$userGameStats || $userGameStats->total != $total
+                        || $userGameStats->achieved != $achieved) {
                         UserGameStat::create([
                             'game_id' => $game->id,
                             'user_id' => $user->id,
                             'total' => $total,
                             'achieved' => $achieved,
                         ]);
+
+                        if ($userGameStats) {
+                            $activityType = ActivityType::AchievementGained;
+
+                            if ($userGameStats->total < $total) {
+                                $activityType = ActivityType::GameAchievementAdded;
+                            } else if ($userGameStats->achieved > $achieved) {
+                                $activityType = ActivityType::AchievementLost;
+                            }
+
+                            if ($userGameStats->total > $total) {
+                                $activityType = ActivityType::GameAchievementRemoved;
+                            }
+
+                            Activity::create([
+                                'game_id' => $game->id,
+                                'user_id' => $user->id,
+                                'type' => $activityType,
+                            ]);
+                        }
+
                     } else {
                         // even though nothing has changed, this will update the timestamp
                         $userGameStats->touch();
