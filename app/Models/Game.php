@@ -20,4 +20,19 @@ class Game extends Model
         'appid',
         'name'
     ];
+
+    public function gameStats()
+    {
+        return $this->hasMany(UserGameStat::class);
+    }
+
+    public static function whereAppid(int $appid): Game|null
+    {
+        return Game::where('appid', $appid)->first();
+    }
+
+    public static function whereId(int $id): Game|null
+    {
+        return Game::where('id', $id)->first();
+    }
 }
