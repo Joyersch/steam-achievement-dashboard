@@ -19,7 +19,7 @@ class GamesController extends Controller
             return view('errors.404', ['message' => 'no stats for that user!'], 404);
         }
 
-        return view('user', ['stats' => $stats, 'completion' => UserGameStat::getCompletion($user)]);
+        return view('user', ['user' => $user, 'stats' => $stats, 'completion' => UserGameStat::getCompletion($user)]);
     }
 
     public function forUser(string $name, int $appid)
@@ -38,6 +38,22 @@ class GamesController extends Controller
         if (!$stats) {
             return view('errors.404', ['message' => 'no stats for that game and user combination!'], 404);
         }
-        return view('gameStats', ['stats' => $stats]);
+
+        $chartData = [];
+        foreach ($stats as $stat) {
+            $chartData[] = [
+                'x' => $stat->created_at->toDateTimeString(),
+                'y' => $stat->completion() * 100
+            ];
+
+            if ($stat->created_at != $stat->updated_at) {
+                $chartData[] = [
+                    'x' => $stat->updated_at->toDateTimeString(),
+                    'y' => $stat->completion() * 100
+                ];
+            }
+        }
+
+        return view('gameStats', ['chartData' => $chartData, 'game' => $game]);
     }
 }
