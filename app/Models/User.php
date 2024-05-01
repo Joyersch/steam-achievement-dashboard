@@ -36,4 +36,9 @@ class User extends Authenticatable
     {
         return User::where('name', $name)->first();
     }
+
+    public function latestStats()
+    {
+        return UserGameStat::getLatestStats($this);
+    }
 }

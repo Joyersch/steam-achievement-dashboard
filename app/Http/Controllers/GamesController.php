@@ -4,21 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\User;
+use App\Models\UserGameStat;
 
 class GamesController extends Controller
 {
-    public function list(string $name)
+    public function user(string $name)
     {
         $user = User::whereName($name);
         if (!$user) {
             return view('errors.404', ['message' => 'no user with that name!'], 404);
         }
-        $stats = $user->gameStats()->get();
+        $stats = $user->latestStats();
         if (!$stats) {
             return view('errors.404', ['message' => 'no stats for that user!'], 404);
         }
 
-        return view('games.list', ['stats' => $stats]);
+        return view('user', ['stats' => $stats, 'completion' => UserGameStat::getCompletion($user)]);
     }
 
     public function forUser(string $name, int $appid)
@@ -37,6 +38,6 @@ class GamesController extends Controller
         if (!$stats) {
             return view('errors.404', ['message' => 'no stats for that game and user combination!'], 404);
         }
-        return view('games.forUser', ['stats' => $stats]);
+        return view('gameStats', ['stats' => $stats]);
     }
 }
