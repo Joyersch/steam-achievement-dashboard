@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id()->autoIncrement();
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('game_id')->constrained('game');
-            $table->float('completion');
+            $table->foreignId('game_id')->constrained('games');
+            $table->integer('total');
+            $table->integer('achieved');
         });
     }
 

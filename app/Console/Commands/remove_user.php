@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use App\Models\UserGameStat;
 use Illuminate\Console\Command;
 
 class remove_user extends Command
@@ -19,7 +20,7 @@ class remove_user extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Remove a user from the database';
 
     /**
      * Execute the console command.
@@ -33,6 +34,7 @@ class remove_user extends Command
             return 1;
         }
 
+        UserGameStat::where('user_id', $user->id)->delete();
         $user->delete();
     }
 }

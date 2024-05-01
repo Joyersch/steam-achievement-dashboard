@@ -22,7 +22,7 @@ class create_user extends Command
      *
      * @var string
      */
-    protected $description = 'oCommand descriptin';
+    protected $description = 'Adds a new user to the database';
 
     /**
      * @param string $name
