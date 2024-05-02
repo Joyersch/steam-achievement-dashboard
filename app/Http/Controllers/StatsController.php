@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class StatsController extends Controller
 {
-    public function user(string $name)
+    public function userStats(string $name)
     {
         $user = User::whereName($name);
         if (!$user) {
@@ -23,7 +23,7 @@ class StatsController extends Controller
         return view('user', ['user' => $user, 'stats' => $stats, 'completion' => UserGameStat::getCompletion($user)]);
     }
 
-    public function forUser(string $name, int $appid)
+    public function gameStats(string $name, int $appid)
     {
         $user = User::whereName($name);
         if (!$user) {
