@@ -3,47 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Stats for {{$user->name}}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/sass/app.scss'])
     <style>
-        .table {
-            margin-top: 20px;
-        }
 
-        .link-style {
-            color: black;
-            text-decoration: none;
-        }
-
-        .link-style:hover {
-            text-decoration: underline;
-        }
-
-        .table {
-            margin-top: 20px;
-        }
-
-        .table {
-            margin-top: 20px;
-        }
-
-        .btn-filter {
-            color: #333;
-            background-color: #f8f9fa;
-            border-color: #ccc;
-        }
-
-        .btn-filter:hover {
-            background-color: #e2e6ea;
-        }
-
-        .link-style {
-            color: black;
-            text-decoration: none;
-        }
-
-        .link-style:hover {
-            text-decoration: underline;
-        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -112,7 +74,7 @@
                         $game = \App\Models\Game::whereId($stat->game_id);
                     @endphp
                     <tr>
-                        <td><a href="/{{ $user->name }}/{{ $game->appid }}" class="link-style">{{ $game->name }}</a>
+                        <td><a href="/stats/{{ $user->name }}/{{ $game->appid }}" class="link-style">{{ $game->name }}</a>
                         </td>
                         <td>{{ number_format($stat->completion() * 100, 2) }}%</td>
                     </tr>

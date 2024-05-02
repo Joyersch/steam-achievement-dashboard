@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
-use App\Http\Controllers\GamesController;
+use App\Http\Controllers\StatsController;
 
-Route::get('/', [IndexController::class, 'index']);
-Route::get('{userid}', [GamesController::class, 'user']);
-Route::get('{userid}/{gameid}', [GamesController::class, 'forUser']);
+Route::middleware(['web'])->group(function () {
+    Route::get('/', [IndexController::class, 'index'])->name('index');
+    Route::get('/stats/{userid}', [StatsController::class, 'user'])->name('stats.user');
+    Route::get('/stats/{userid}/{gameid}', [StatsController::class, 'forUser'])->name('stats.forUser');
+});

@@ -5,18 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Game;
 use App\Models\User;
 use App\Models\UserGameStat;
+use Illuminate\Support\Facades\Redirect;
 
-class GamesController extends Controller
+class StatsController extends Controller
 {
     public function user(string $name)
     {
         $user = User::whereName($name);
         if (!$user) {
-            return view('errors.404', ['message' => 'no user with that name!'], 404);
+            return Redirect::away(route('index'));
         }
         $stats = $user->latestStats();
         if (!$stats) {
-            return view('errors.404', ['message' => 'no stats for that user!'], 404);
+            return Redirect::away(route('index'));
         }
 
         return view('user', ['user' => $user, 'stats' => $stats, 'completion' => UserGameStat::getCompletion($user)]);
@@ -26,17 +27,17 @@ class GamesController extends Controller
     {
         $user = User::whereName($name);
         if (!$user) {
-            return view('errors.404', ['message' => 'no user with that name!'], 404);
+            return Redirect::away(route('index'));
         }
 
         $game = Game::whereAppid($appid);
         if (!$game) {
-            return view('errors.404', ['message' => 'no game with that appid!'], 404);
+            return Redirect::away(route('index'));
         }
 
         $stats = $user->stats($game);
         if (!$stats) {
-            return view('errors.404', ['message' => 'no stats for that game and user combination!'], 404);
+            return Redirect::away(route('index'));
         }
 
         $chartData = [];

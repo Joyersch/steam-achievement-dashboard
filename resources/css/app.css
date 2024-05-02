@@ -1,0 +1,64 @@
+.achievement-gained {
+    color: green;
+}
+
+.achievement-lost {
+    color: red;
+}
+
+.game-added {
+    color: blue;
+}
+
+.game-removed {
+    color: orange;
+}
+
+.link-style {
+    text-decoration: none;
+    color: inherit;
+}
+
+.link-style:hover {
+    text-decoration: underline;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.link-style {
+    color: black;
+    text-decoration: none;
+}
+
+.link-style:hover {
+    text-decoration: underline;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.btn-filter {
+    color: #333;
+    background-color: #f8f9fa;
+    border-color: #ccc;
+}
+
+.btn-filter:hover {
+    background-color: #e2e6ea;
+}
+
+.link-style {
+    color: black;
+    text-decoration: none;
+}
+
+.link-style:hover {
+    text-decoration: underline;
+}
