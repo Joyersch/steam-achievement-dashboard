@@ -10,11 +10,15 @@ class UserGameStat extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+
     protected $fillable = [
         'user_id',
         'game_id',
         'total',
-        'achieved'
+        'achieved',
+        'created_at',
+        'updated_at'
     ];
 
     public function user()

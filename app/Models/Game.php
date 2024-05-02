@@ -18,7 +18,10 @@ class Game extends Model
      */
     protected $fillable = [
         'appid',
-        'name'
+        'name',
+        'id',
+        'created_at',
+        'updated_at'
     ];
 
     public function gameStats()

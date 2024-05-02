@@ -16,6 +16,9 @@ class Activity extends Model
         'user_id',
         'game_id',
         'type',
+        'id',
+        'created_at',
+        'updated_at'
     ];
 
     protected $casts = [

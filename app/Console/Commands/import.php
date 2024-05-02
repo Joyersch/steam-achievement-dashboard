@@ -2,11 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Activity;
 use App\Models\Game;
 use App\Models\User;
 use App\Models\UserGameStat;
 use Illuminate\Console\Command;
 use Illuminate\Http\File;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class import extends Command
@@ -23,12 +25,28 @@ class import extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Old data will be deleted; Import data from file storage/export.json.';
 
     /**
      * Execute the console command.
      */
     public function handle()
+    {
+        DB::beginTransaction();
+        try {
+            UserGameStat::query()->truncate();
+            Activity::query()->truncate();
+            Game::query()->truncate();
+            User::query()->truncate();
+            $this->import();
+            DB::commit();
+        } catch (\Exception $exception) {
+            $this->error($exception->getMessage());
+            DB::rollBack();
+        }
+    }
+
+    private function import()
     {
         $file = storage_path('export.json');
         if (!$file || !file_exists($file)) {
@@ -37,11 +55,11 @@ class import extends Command
         }
         $contents = json_decode(file_get_contents(storage_path('export.json')));
 
-        foreach($contents->games as $game) {
+        foreach ($contents->games as $game) {
             Game::firstOrCreate([
                 'id' => $game->id,
                 'appid' => $game->appid,
-                'name'=> $game->name,
+                'name' => $game->name,
             ]);
         }
 
@@ -63,6 +81,17 @@ class import extends Command
                     'achieved' => $gameStat->achieved,
                 ]);
             }
+        }
+
+        foreach ($contents->activity as $activity) {
+            Activity::create([
+                'id' => $activity->id,
+                'user_id' => $user->id,
+                'game_id' => $activity->game_id,
+                'type' => $activity->type,
+                'created_at' => $activity->created_at,
+                'updated_at' => $activity->updated_at,
+            ]);
         }
     }
 }

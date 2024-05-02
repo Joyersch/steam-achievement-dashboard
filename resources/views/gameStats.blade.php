@@ -37,7 +37,7 @@
                             time: {
                                 tooltipFormat: 'MM/dd/yyyy HH:mm:ss',
                                 displayFormats: {
-                                    hour: 'MMM d, hA',
+                                    hour: 'MMM d, h',
                                     minute: 'MMM d, HH:mm',
                                     day: 'MMM d'
                                 }

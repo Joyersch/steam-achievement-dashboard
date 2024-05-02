@@ -19,7 +19,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'steam_user_id'
+        'steam_user_id',
+        'id',
+        'created_at',
+        'updated_at'
     ];
 
     public function gameStats()

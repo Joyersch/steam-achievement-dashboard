@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Activity;
 use App\Models\Game;
 use App\Models\User;
 use Illuminate\Console\Command;
@@ -29,7 +30,8 @@ class export extends Command
     {
         $games = Game::all();
         $users = User::with("gameStats")->get();
-        $export = ['games' => $games, 'users' => $users];
+        $activities = Activity::all();
+        $export = ['games' => $games, 'users' => $users, 'activity' => $activities];
         $path = storage_path() . "/export.json";
         if (file_put_contents($path, json_encode($export))) {
             $this->info('Create export at: ' . $path);
