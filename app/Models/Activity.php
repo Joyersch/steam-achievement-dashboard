@@ -29,6 +29,7 @@ class Activity extends Model
     {
         return Activity::where('created_at', '>=', Carbon::now()->subDays(30))
             ->where('created_at', '<=', now())
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 }
