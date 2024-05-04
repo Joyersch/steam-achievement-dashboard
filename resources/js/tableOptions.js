@@ -67,9 +67,14 @@
         const tableColumns = table.querySelectorAll('tr');
         tableColumns.forEach(column => {
             const name = column.children[0].innerText;
+            let link = null;
+            if (column.children[0].children.length >= 1) {
+                link = column.children[0].children[0].href;
+            }
             const value = column.children[1].innerText.replace('%', '');
             columns.push({
                 'name': name,
+                'link': link,
                 'value': value,
             });
         });
@@ -86,8 +91,18 @@
         const rows = table.querySelectorAll('tr');
 
         rows.forEach((row, index) => {
-            row.children[0].innerText = parsedData.columns[index].name;
-            row.children[1].innerText = parsedData.columns[index].value + '%';
+
+            if (parsedData.columns[index].link) {
+                let link = document.createElement('a');
+                link.href = parsedData.columns[index].link;
+                link.innerText = parsedData.columns[index].name;
+                link.classList.add('link-style');
+                row.children[0].innerText = '';
+                row.children[0].appendChild(link);
+            } else {
+                row.children[0].innerText = parsedData.columns[index].name;
+                row.children[1].innerText = parsedData.columns[index].value + '%'
+            }
         });
     }
 
@@ -100,7 +115,6 @@
 
         const tableDataCopy = JSON.parse(tableData);
 
-        console.log(tableDataCopy);
         switch (sortState) {
             case 1:
                 tableDataCopy.columns = tableDataCopy.columns.sort((a, b) => +a.value - +b.value);
