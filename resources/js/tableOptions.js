@@ -99,6 +99,7 @@
                 link.classList.add('link-style');
                 row.children[0].innerText = '';
                 row.children[0].appendChild(link);
+                row.children[1].innerText = parsedData.columns[index].value + '%'
             } else {
                 row.children[0].innerText = parsedData.columns[index].name;
                 row.children[1].innerText = parsedData.columns[index].value + '%'
