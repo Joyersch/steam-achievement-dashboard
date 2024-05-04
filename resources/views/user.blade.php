@@ -20,11 +20,11 @@
                 <button type="button" class="btn btn-filter" id="hide0">Hide 0% Completion</button>
                 <button type="button" class="btn btn-filter" id="hideOthers">Hide Other% Completion</button>
             </div>
-            <table class="table table-striped mt-3">
+            <table class="table table-striped mt-3" id="games_table">
                 <thead>
                 <tr>
                     <th>Game Name</th>
-                    <th>Completion Rate (%)</th>
+                    <th id="completion_header">Completion Rate (%)</th>
                 </tr>
                 </thead>
                 <tbody>
