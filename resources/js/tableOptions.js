@@ -6,22 +6,16 @@
     const table = document.getElementById('games_table');
     const header = document.getElementById('completion_header');
 
+    let hide100 = false;
+    let hide0 = false;
+    let hideOther = false;
     hide100Btn.addEventListener('click', function () {
-        toggleVisibility(this, 100);
+        hide100 = toggleVisibility(this, 100);
     });
 
     hide0Btn.addEventListener('click', function () {
-        toggleVisibility(this, 0);
+        hide0 = toggleVisibility(this, 0);
     });
-
-    function registerHeader() {
-        header.addEventListener('click', function () {
-            sort();
-        });
-    }
-
-    registerHeader();
-
 
     hideOthersBtn.addEventListener('click', function () {
         let isHidden = this.textContent.includes("Hide");
@@ -32,6 +26,7 @@
             }
         });
         this.textContent = isHidden ? "Show Non-Extreme Completions" : "Hide Non-Extreme Completions";
+        hideOther = isHidden;
     });
 
     function toggleVisibility(button, completionTarget) {
@@ -43,7 +38,26 @@
             }
         });
         button.textContent = isHidden ? "Show " + completionTarget + "% Completion" : "Hide " + completionTarget + "% Completion";
+        return isHidden;
     }
+
+    function resetVisibility() {
+        rows.forEach(row => {
+            const completion = parseFloat(row.cells[1].innerText.replace('%', ''));
+            row.style.display = '';
+        });
+        hide100Btn.textContent = "Hide 100% Completion";
+        hide0Btn.textContent = "Hide 0% Completion";
+        hideOthersBtn.textContent = "Hide Other% Completion";
+    }
+
+    function registerHeader() {
+        header.addEventListener('click', function () {
+            sort();
+        });
+    }
+
+    registerHeader();
 
     function save(table) {
         if (!table)
@@ -98,7 +112,17 @@
                 break;
         }
 
+        resetVisibility();
         apply(table, JSON.stringify(tableDataCopy));
+        if (hide0) {
+            hide0Btn.click();
+        }
+        if (hide100) {
+            hide100Btn.click();
+        }
+        if (hideOther) {
+            hideOthersBtn.click();
+        }
 
         switch (sortState) {
             case 1:
