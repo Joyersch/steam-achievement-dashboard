@@ -14,7 +14,7 @@
             </div>
             <div>
                 <div>
-                    <h4>{{ number_format($completion * 100, 2) }}% Average</h4>
+                    <h4><strong>{{ number_format($completion * 100, 2) }}%</strong> completion average</h4>
                     <h4><strong>{{ $achievements }}</strong> Achievements</h4>
                     <h4><strong>{{$gamesStarted}}</strong>/{{$games}} games started of which
                         <strong>{{$finishedGames}}</strong>/<strong>{{$gamesStarted}}</strong> are finished</h4>
