@@ -15,7 +15,7 @@ class create_user extends Command
      *
      * @var string
      */
-    protected $signature = 'app:create_user {name} {steamUserId}';
+    protected $signature = 'app:create_user  {steamUserId} {name} {color=#ffffff}';
 
     /**
      * The console command description.

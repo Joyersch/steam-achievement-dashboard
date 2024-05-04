@@ -76,7 +76,7 @@ class import extends Command
                     'created_at' => $gameStat->created_at,
                     'updated_at' => $gameStat->updated_at,
                     'game_id' => $gameStat->game_id,
-                    'user_id' => $user->id,
+                    'user_id' => $gameStat->user_id,
                     'total' => $gameStat->total,
                     'achieved' => $gameStat->achieved,
                 ]);
@@ -86,7 +86,7 @@ class import extends Command
         foreach ($contents->activity as $activity) {
             Activity::create([
                 'id' => $activity->id,
-                'user_id' => $user->id,
+                'user_id' => $activity->user_id,
                 'game_id' => $activity->game_id,
                 'type' => $activity->type,
                 'created_at' => $activity->created_at,
