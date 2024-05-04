@@ -3,4 +3,4 @@
 use Illuminate\Support\Facades\Schedule;
 
 
-Schedule::command('app:pull')->hourly();
+Schedule::command('app:pull')->everySixHours();

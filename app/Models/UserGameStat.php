@@ -61,6 +61,45 @@ class UserGameStat extends Model
         return $sum / $count;
     }
 
+    public static function getAchievementCount(User $user): int
+    {
+        $gamestats = UserGameStat::getLatestStats($user);
+        $count = 0;
+        foreach ($gamestats as $gamestat) {
+            $count += $gamestat->achieved;
+        }
+        return $count;
+    }
+
+    public static function getGamesStartedCount(User $user): int
+    {
+        $gamestats = UserGameStat::getLatestStats($user);
+        $count = 0;
+        foreach ($gamestats as $gamestat) {
+            if ($gamestat->achieved > 0) {
+                $count++;
+            }
+        }
+        return $count;
+    }
+
+    public static function getCompletedGamesCount(User $user): int
+    {
+        $gamestats = UserGameStat::getLatestStats($user);
+        $count = 0;
+        foreach ($gamestats as $gamestat) {
+            if ($gamestat->achieved == $gamestat->total) {
+                $count++;
+            }
+        }
+        return $count;
+    }
+
+    public static function getGamesCount(User $user): int
+    {
+        return count(UserGameStat::getLatestStats($user));
+    }
+
     public static function getLatestStats(User $user): Collection|null
     {
         return $user->gameStats()

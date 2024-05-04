@@ -20,7 +20,14 @@ class StatsController extends Controller
             return Redirect::away(route('index'));
         }
 
-        return view('user', ['user' => $user, 'stats' => $stats, 'completion' => UserGameStat::getCompletion($user)]);
+        return view('user', ['user' => $user,
+            'stats' => $stats,
+            'completion' => UserGameStat::getCompletion($user),
+            'achievements' => UserGameStat::getAchievementCount($user),
+            'games' => UserGameStat::getGamesCount($user),
+            'gamesStarted' => UserGameStat::getGamesStartedCount($user),
+            'finishedGames' => UserGameStat::getCompletedGamesCount($user),
+        ]);
     }
 
     public function gameStats(string $name, int $appid)

@@ -13,7 +13,12 @@
                 <h1>Stats for {{$user->name}}</h1>
             </div>
             <div>
-                <h2 class="mt-4">Average Completion: {{ number_format($completion * 100, 2) }}%</h2>
+                <div>
+                    <h4>{{ number_format($completion * 100, 2) }}% Average</h4>
+                    <h4><strong>{{ $achievements }}</strong> Achievements</h4>
+                    <h4><strong>{{$gamesStarted}}</strong>/{{$games}} games started of which
+                        <strong>{{$finishedGames}}</strong>/<strong>{{$gamesStarted}}</strong> are finished</h4>
+                </div>
             </div>
             <div class="btn-group mt-3" role="group" aria-label="Filter Buttons">
                 <button type="button" class="btn btn-filter" id="hide100">Hide 100% Completion</button>
@@ -33,7 +38,8 @@
                         $game = \App\Models\Game::whereId($stat->game_id);
                     @endphp
                     <tr>
-                        <td><a href="/stats/{{ $user->name }}/{{ $game->appid }}" class="link-style">{{ $game->name }}</a>
+                        <td><a href="/stats/{{ $user->name }}/{{ $game->appid }}"
+                               class="link-style">{{ $game->name }}</a>
                         </td>
                         <td>{{ number_format($stat->completion() * 100, 2) }}%</td>
                     </tr>
