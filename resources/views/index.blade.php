@@ -19,10 +19,10 @@
             <div class="list-group-item">
                 @switch($activity->type->name)
                     @case('AchievementGained')
-                        <p><a href="{{ $user->name }}" class="link-style"><strong>{{ $user->name }}</strong></a> <span class="achievement-gained">gained</span> achievements in <a href="stats/{{ $user->name }}/{{ $game->appid }}" class="link-style"><strong>{{ $game->name }}</strong></a></p>
+                        <p><a href="stats/{{ $user->name }}" class="link-style"><strong>{{ $user->name }}</strong></a> <span class="achievement-gained">gained</span> achievements in <a href="stats/{{ $user->name }}/{{ $game->appid }}" class="link-style"><strong>{{ $game->name }}</strong></a></p>
                         @break
                     @case('AchievementLost')
-                        <p><a href="{{ $user->name }}" class="link-style"><strong>{{ $user->name }}</strong></a> <span class="achievement-lost">lost</span> achievements in <a href="stats/{{ $user->name }}/{{ $game->appid }}" class="link-style"><strong>{{ $game->name }}</strong></a></p>
+                        <p><a href="stats/{{ $user->name }}" class="link-style"><strong>{{ $user->name }}</strong></a> <span class="achievement-lost">lost</span> achievements in <a href="stats/{{ $user->name }}/{{ $game->appid }}" class="link-style"><strong>{{ $game->name }}</strong></a></p>
                         @break
                     @case('GameAchievementAdded')
                         <p>Achievements <span class="game-added">added</span> to <a href="stats/{{ $user->name }}/{{ $game->appid }}" class="link-style"><strong>{{ $game->name }}</strong></a></p>
