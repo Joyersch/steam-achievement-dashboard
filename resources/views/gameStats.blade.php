@@ -7,6 +7,7 @@
 </head>
 <body>
 <div class="container mt-5">
+    <a href="/stats/{{$user->name}}" class="btn border">Stats for {{$user->name}}</a>
     <div class="row">
         <h1 class="text-center">Game Title: {{ $game->name }}</h1>
         <h2 class="text-center">Tracked over time</h2>

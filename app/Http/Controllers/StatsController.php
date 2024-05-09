@@ -64,8 +64,12 @@ class StatsController extends Controller
         }
 
         $secondChartData = AchievementStats::get($user, $game)->values;
-        return view('gameStats', ['chartData' => $chartData, 'game' => $game, 'secondChartData' => json_decode($secondChartData)]);
+        return view('gameStats', [
+            'game' => $game,
+            'user' => $user,
+            'chartData' => $chartData,
+            'secondChartData' => json_decode($secondChartData),
 
-
+        ]);
     }
 }
