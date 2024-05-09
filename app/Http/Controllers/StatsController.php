@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AchievementStats;
 use App\Models\Game;
 use App\Models\User;
 use App\Models\UserGameStat;
@@ -62,6 +63,9 @@ class StatsController extends Controller
             }
         }
 
-        return view('gameStats', ['chartData' => $chartData, 'game' => $game]);
+        $secondChartData = AchievementStats::get($user, $game)->values;
+        return view('gameStats', ['chartData' => $chartData, 'game' => $game, 'secondChartData' => json_decode($secondChartData)]);
+
+
     }
 }

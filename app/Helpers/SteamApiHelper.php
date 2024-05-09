@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -40,13 +41,24 @@ class SteamApiHelper
             $achievements = $response->playerstats->achievements;
             $count = count($achievements);
             $unlocked = 0;
+            $dates = collect();
             foreach ($achievements as $achievement) {
                 if ($achievement->achieved) {
+                    $unlockTime = $achievement->unlocktime;
+                    if ($achievement->unlocktime != 0) {
+                        $date = Carbon::createFromTimestamp($unlockTime);
+                        $dates->add($date);
+                    }
+                    else{
+                        $dates->add(null);
+                    }
+
+
                     $unlocked++;
                 }
             }
-            return ['name' => $name, 'total' => $count, 'achieved' => $unlocked];
-        } catch(Exception $exception) {
+            return ['name' => $name, 'total' => $count, 'achieved' => $unlocked, 'dates' => $dates];
+        } catch (Exception $exception) {
             return null;
         }
     }

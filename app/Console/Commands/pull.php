@@ -4,11 +4,13 @@ namespace App\Console\Commands;
 
 use App\Enums\ActivityType;
 use App\Helpers\SteamApiHelper;
+use App\Models\AchievementStats;
 use App\Models\Activity;
 use App\Models\Game;
 use App\Models\User;
 use App\Models\UserGameStat;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 
 class pull extends Command
 {
@@ -59,6 +61,27 @@ class pull extends Command
                     } else {
                         $game->update(['name' => $stats['name']]);
                     }
+
+                    $dates = $stats['dates']->sortBy(fn($d) => $d)->values();
+
+                    $pairs = $dates->map(function (Carbon|null $date, $index) use ($total) {
+                        if (!$date) {
+                            return null;
+                        }
+
+                        $percentage = ($index + 1) / $total * 100;
+                        return [
+                            'x' => $date->format('Y-m-d H:i:s'),
+                            'y' => round($percentage, 6)
+                        ];
+                    })->filter(fn($p) => !is_null($p))->values();
+
+                    $achievementStats = AchievementStats::firstOrCreate([
+                        'game_id' => $game->id,
+                        'user_id' => $user->id,
+                    ]);
+
+                    $achievementStats->update(['values' => json_decode($pairs)]);
 
                     $userGameStats = UserGameStat::latestEntry($user, $game);
                     if (!$userGameStats || $userGameStats->total != $total
