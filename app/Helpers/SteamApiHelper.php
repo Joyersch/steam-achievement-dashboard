@@ -52,8 +52,6 @@ class SteamApiHelper
                     else{
                         $dates->add(null);
                     }
-
-
                     $unlocked++;
                 }
             }
