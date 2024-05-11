@@ -22,7 +22,6 @@ class SteamApiHelper
             $responseString = Http::get(sprintf(SteamApiHelper::$gameUrl, config('steam.apikey'), $user->steam_user_id));
             $response = json_decode($responseString->body());
             return collect($response->response->games);
-
         } catch (RequestException $exception) {
             return null;
         }
@@ -46,10 +45,9 @@ class SteamApiHelper
                 if ($achievement->achieved) {
                     $unlockTime = $achievement->unlocktime;
                     if ($achievement->unlocktime != 0) {
-                        $date = Carbon::createFromTimestamp($unlockTime);
+                        $date = Carbon::createFromTimestamp($unlockTime, config('app.timezone'));
                         $dates->add($date);
-                    }
-                    else{
+                    } else {
                         $dates->add(null);
                     }
                     $unlocked++;
