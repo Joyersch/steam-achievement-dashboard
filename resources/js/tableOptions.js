@@ -25,7 +25,7 @@
                 row.style.display = isHidden ? 'none' : '';
             }
         });
-        this.textContent = isHidden ? "Show Non-Extreme Completions" : "Hide Non-Extreme Completions";
+        this.textContent = isHidden ? "Show Other% Completions" : "Hide Other% Completions";
         hideOther = isHidden;
     });
 
