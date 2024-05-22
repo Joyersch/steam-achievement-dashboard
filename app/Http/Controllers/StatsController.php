@@ -64,7 +64,7 @@ class StatsController extends Controller
         }
 
         $achievements = AchievementStats::get($user, $game);
-        $secondChartData = [];
+        $secondChartData = json_encode([]);
         if ($achievements) {
             $secondChartData = $achievements->values;
         }
