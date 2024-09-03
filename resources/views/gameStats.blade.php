@@ -10,10 +10,10 @@
     <a href="/stats/{{$user->name}}" class="btn border">Stats for {{$user->name}}</a>
     <div class="row">
         <h1 class="text-center">Game Title: {{ $game->name }}</h1>
-        <h2 class="text-center">Tracked over time</h2>
-        <canvas id="myChart"></canvas>
         <h2 class="text-center">Based on unlock time</h2>
         <canvas id="myChart2"></canvas>
+        <h2 class="text-center">Tracked over time</h2>
+        <canvas id="myChart"></canvas>
     </div>
 </div>
 <script>
