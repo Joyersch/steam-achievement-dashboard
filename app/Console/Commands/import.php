@@ -50,7 +50,7 @@ class import extends Command
     {
         $file = storage_path('export.json');
         if (!$file || !file_exists($file)) {
-            $this->error('No file found');
+            $this->error('No \'export.json\'file found in storage');
             return false;
         }
         $contents = json_decode(file_get_contents(storage_path('export.json')));
@@ -68,6 +68,10 @@ class import extends Command
                 'id' => $userData->id,
                 'name' => $userData->name,
                 'steam_user_id' => $userData->steam_user_id
+            ]);
+
+            $user->update([
+                'color' => $userData->color
             ]);
 
             foreach ($userData->game_stats as $gameStat) {
