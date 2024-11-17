@@ -15,8 +15,9 @@ export default {
                 user_lost: 'red',
                 game_added: 'blue',
                 game_removed: 'orange',
-                paper: 'efefef',
-                box: 'dedede'
+                paper: 'white',
+                box: 'whitesmoke',
+                text: "black"
             }
         },
     },
