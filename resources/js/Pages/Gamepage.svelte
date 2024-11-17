@@ -8,16 +8,23 @@
     export let data;
 
     let cfx;
-    let cfx2;
 
-    let chartConfig = {
+    let combinedChartConfig = {
         type: "line",
         data: {
             datasets: [
                 {
-                    label: "Completion Over Time",
+                    label: "Provided by steam",
+                    data: data.secondChartData,
+                    borderColor: "rgb(255, 99, 132)",
+                    fill: false,
+                },
+                {
+                    label: "Tracked by this tool",
                     data: data.chartData,
                     borderColor: "rgb(75, 192, 192)",
+                    fill: false,
+                    hidden: true,
                 },
             ],
         },
@@ -45,49 +52,12 @@
                         display: true,
                         text: "Completion (%)",
                     },
-                },
-            },
-            parsing: {
-                xAxisKey: "x",
-                yAxisKey: "y",
-            },
-        },
-    };
-
-    let chartConfig2 = {
-        type: "line",
-        data: {
-            datasets: [
-                {
-                    label: "Completion Over Time",
-                    data: data.secondChartData,
-                    borderColor: "rgb(75, 192, 192)",
-                },
-            ],
-        },
-        options: {
-            scales: {
-                x: {
-                    type: "time",
-                    time: {
-                        tooltipFormat: "MM/dd/yyyy HH:mm:ss",
-                        displayFormats: {
-                            hour: "MMM d, h",
-                            minute: "MMM d, HH:mm",
-                            day: "MMM d",
+                    ticks: {
+                        stepSize: 10,
+                        font: {
+                            size: 14,
                         },
-                    },
-                    title: {
-                        display: true,
-                        text: "Date",
-                    },
-                },
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    title: {
-                        display: true,
-                        text: "Completion (%)",
+                        padding: 10,
                     },
                 },
             },
@@ -99,22 +69,23 @@
     };
 
     onMount(() => {
-        new Chart(cfx, chartConfig);
-        new Chart(cfx2, chartConfig2);
+        new Chart(cfx, combinedChartConfig);
     });
 </script>
 
 <main class="bg-box">
     <div class="flex justify-center content-center flex-col">
         <div class="container mx-auto bg-paper" style="max-width: 750px;">
+            <a class="font-rubik text-l ml-3" href="/stats/{data.user}"
+                >Return to {data.user}'s stats</a
+            >
             <div class="flex justify-center mt-3 mb-3 font-grandstander">
                 <h1 class="text-4xl">Stats of {data.game} for {data.user}</h1>
             </div>
             <div class="font-rubik min-h-screen">
-                <h2 class="text-center">Based on unlock time</h2>
-                <canvas bind:this={cfx}></canvas>
-                <h2 class="text-center">Tracked over time</h2>
-                <canvas bind:this={cfx2}></canvas>
+                <div class="ml-2 mr-5">
+                    <canvas bind:this={cfx}></canvas>
+                </div>
             </div>
         </div>
     </div>
