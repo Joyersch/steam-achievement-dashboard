@@ -34,14 +34,13 @@ class PageController extends Controller
 
             $entry['game'] = [
                 'name' => $game->name,
-                'id' => $game->id
+                'id' => $game->appid
             ];
 
             $data[] = $entry;
         }
 
         return Inertia::render('Startpage', ['data' => ['activities' => $data]]);
-        //return view('index', ['activities' => Activity::fromLastMonth()]);
     }
     public function userStats(string $name)
     {
