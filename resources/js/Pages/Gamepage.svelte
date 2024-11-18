@@ -10,17 +10,15 @@
         tooltip: {
             trigger: "axis",
             axisPointer: {
-                type: "line",
+                type: "cross",
             },
             formatter: (params) => {
-                const date = echarts.format.formatTime(
-                    "MM/dd/yyyy HH:mm:ss",
-                    params[0].value[0],
-                );
-                const values = params
-                    .map((p) => `${p.seriesName}: ${p.value[1]}`)
-                    .join("<br/>");
-                return `${date}<br/>${values}`;
+                const date = new Date(params[0].value[0]);
+
+                if (params.length == 1) {
+                    return `${date.toUTCString()}<br/>  ${params[0].value[1]}`;
+                }
+                return `${date.toUTCString()}<br/>  ${params[0].value[1]} - ${params[params.length - 1].value[1]}`;
             },
         },
         legend: {
@@ -33,10 +31,13 @@
             type: "time",
             name: "Date",
             nameLocation: "middle",
-            nameGap: 25,
+            nameGap:
+                data.chartData.length > data.secondChartData.length
+                    ? data.chartData.length
+                    : data.secondChartData.length,
             axisLabel: {
                 formatter: function (value) {
-                    return echarts.format.formatTime("MMM d", value);
+                    return new Date(value).toLocaleDateString();
                 },
             },
         },
@@ -44,7 +45,10 @@
             type: "value",
             name: "Completion (%)",
             nameLocation: "middle",
-            nameGap: 40,
+            nameGap:
+                data.chartData.length > data.secondChartData.length
+                    ? data.chartData.length
+                    : data.secondChartData.length,
             min: 0,
             max: 100,
             axisLabel: {
@@ -62,7 +66,11 @@
                 lineStyle: {
                     color: "rgb(255, 99, 132)",
                 },
-                showSymbol: false,
+                itemStyle: {
+                    color: "rgb(255, 99, 132)",
+                },
+                showSymbol: true,
+                symbol: "roundRect",
             },
             {
                 name: "Tracked by this tool",
