@@ -1,75 +1,85 @@
 <script>
-    import { Chart, registerables } from "chart.js";
-    Chart.register(...registerables);
-    window.Chart = Chart;
-    import "chartjs-adapter-date-fns";
+    import * as echarts from "echarts";
     import { onMount } from "svelte";
 
     export let data;
 
     let cfx;
 
-    let combinedChartConfig = {
-        type: "line",
-        data: {
-            datasets: [
-                {
-                    label: "Provided by steam",
-                    data: data.secondChartData,
-                    borderColor: "rgb(255, 99, 132)",
-                    fill: false,
-                },
-                {
-                    label: "Tracked by this tool",
-                    data: data.chartData,
-                    borderColor: "rgb(75, 192, 192)",
-                    fill: false,
-                    hidden: true,
-                },
-            ],
-        },
-        options: {
-            scales: {
-                x: {
-                    type: "time",
-                    time: {
-                        tooltipFormat: "MM/dd/yyyy HH:mm:ss",
-                        displayFormats: {
-                            hour: "MMM d, h",
-                            minute: "MMM d, HH:mm",
-                            day: "MMM d",
-                        },
-                    },
-                    title: {
-                        display: true,
-                        text: "Date",
-                    },
-                },
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    title: {
-                        display: true,
-                        text: "Completion (%)",
-                    },
-                    ticks: {
-                        stepSize: 10,
-                        font: {
-                            size: 14,
-                        },
-                        padding: 10,
-                    },
-                },
+    let option = {
+        tooltip: {
+            trigger: "axis",
+            axisPointer: {
+                type: "line",
             },
-            parsing: {
-                xAxisKey: "x",
-                yAxisKey: "y",
+            formatter: (params) => {
+                const date = echarts.format.formatTime(
+                    "MM/dd/yyyy HH:mm:ss",
+                    params[0].value[0],
+                );
+                const values = params
+                    .map((p) => `${p.seriesName}: ${p.value[1]}`)
+                    .join("<br/>");
+                return `${date}<br/>${values}`;
             },
         },
+        legend: {
+            data: ["Provided by steam", "Tracked by this tool"],
+            selected: {
+                "Tracked by this tool": false, // Verstecke diesen Datensatz standardmäßig
+            },
+        },
+        xAxis: {
+            type: "time",
+            name: "Date",
+            nameLocation: "middle",
+            nameGap: 25,
+            axisLabel: {
+                formatter: function (value) {
+                    return echarts.format.formatTime("MMM d", value);
+                },
+            },
+        },
+        yAxis: {
+            type: "value",
+            name: "Completion (%)",
+            nameLocation: "middle",
+            nameGap: 40,
+            min: 0,
+            max: 100,
+            axisLabel: {
+                formatter: "{value}%",
+            },
+            splitLine: {
+                show: true,
+            },
+        },
+        series: [
+            {
+                name: "Provided by steam",
+                type: "line",
+                data: data.secondChartData.map((point) => [point.x, point.y]),
+                lineStyle: {
+                    color: "rgb(255, 99, 132)",
+                },
+                showSymbol: false,
+            },
+            {
+                name: "Tracked by this tool",
+                type: "line",
+                data: data.chartData.map((point) => [point.x, point.y]),
+                lineStyle: {
+                    color: "rgb(75, 192, 192)",
+                },
+                showSymbol: false,
+            },
+        ],
     };
 
     onMount(() => {
-        new Chart(cfx, combinedChartConfig);
+        const chart = echarts.init(cfx);
+        chart.setOption(option);
+        window.addEventListener("resize", () => chart.resize());
     });
 </script>
 
@@ -80,11 +90,13 @@
                 >Return to {data.user}'s stats</a
             >
             <div class="flex justify-center mt-3 mb-3 font-grandstander">
-                <h1 class="text-4xl">Stats of {data.game} for {data.user}</h1>
+                <h1 class="text-4xl ml-3 mr-3">
+                    Stats of {data.game} for {data.user}
+                </h1>
             </div>
             <div class="font-rubik min-h-screen">
                 <div class="ml-2 mr-5">
-                    <canvas bind:this={cfx}></canvas>
+                    <div bind:this={cfx} style="width: 100%; height: 600px;" />
                 </div>
             </div>
         </div>
