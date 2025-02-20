@@ -1,0 +1,12 @@
+services:
+  app:
+    container_name: "sad"
+    build: .
+    ports:
+      - "5678:80"
+    volumes:
+      - database:/var/www/html/database/
+
+volumes:
+  database:
+    driver: local
