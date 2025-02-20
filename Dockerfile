@@ -8,7 +8,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN apt-get update
 RUN apt-get -y install npm 
 
-
 COPY . /var/www/html
 WORKDIR /var/www/html
 RUN rm -rf /usr/share/nginx/html/*
