@@ -20,3 +20,8 @@ Pull data with the following command:
 ```
 php artisan app:pull
 ```
+ # Using Docker
+Update the docker-compose.yml to your liking, afterwards run:
+ ```
+ docker compose build docker compose up -d
+ ```
