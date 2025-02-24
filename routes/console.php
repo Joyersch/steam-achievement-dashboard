@@ -3,4 +3,4 @@
 use Illuminate\Support\Facades\Schedule;
 
 
-Schedule::command('app:pull')->everyThirtyMinutes();
+Schedule::command('app:pull')->everyThirtyMinutes()->withoutOverlapping();

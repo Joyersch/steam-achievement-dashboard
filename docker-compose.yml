@@ -1,12 +1,13 @@
 services:
   app:
     container_name: "sad"
-    build: .
+    build:
+      dockerfile: ./docker/Dockerfile
     ports:
       - "5678:80"
     volumes:
-      - database:/var/www/html/database/
+      - storage:/var/www/html/database
 
 volumes:
-  database:
+  storage:
     driver: local
