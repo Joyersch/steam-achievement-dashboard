@@ -1,0 +1,13 @@
+services:
+  app:
+    container_name: "sad"
+    build:
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "5678:80"
+    volumes:
+      - storage:/var/www/html/database
+
+volumes:
+  storage:
+    driver: local

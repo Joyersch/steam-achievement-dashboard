@@ -10,7 +10,7 @@
         tooltip: {
             trigger: "axis",
             axisPointer: {
-                type: "cross",
+                type: "none",
             },
             formatter: (params) => {
                 const date = new Date(params[0].value[0]);
