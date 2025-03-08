@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ActivityType;
 use App\Models\AchievementStats;
 use App\Models\Activity;
 use App\Models\Game;
@@ -23,21 +24,39 @@ class PageController extends Controller
             $user = User::whereId($activity->user_id);
             $game = Game::whereId($activity->game_id);
 
-            $entry = [];
-            $entry['type'] = $activity->type->name;
-            $entry['date'] = Carbon::parse($activity->updated_at)->toDateString();
+            $date = Carbon::parse($activity->updated_at)->toDateString();
 
-            $entry['user'] = [
-                'name' => $user->name,
-                'color' => $user->color
-            ];
+            $doubles = collect($data)->where('date', '=', $date)
+            ->where('game.id', '=', $game->appid)
+            ->where('user.name', '=', $user->name)
+            ->count() > 0;
 
-            $entry['game'] = [
-                'name' => $game->name,
-                'id' => $game->appid
-            ];
 
-            $data[] = $entry;
+
+            if ($activity->type === ActivityType::GameAchievementAdded || $activity->type === ActivityType::GameAchievementRemoved){
+                $doubles = collect($data)->where('date', '=', $date)
+                ->where('type', '=', $activity->type->name)
+                ->where('game.id', '=', $game->appid)
+                ->count() > 0;
+            }
+            
+            if (!$doubles) {
+                $entry = [];
+                $entry['type'] = $activity->type->name;
+                $entry['date'] = $date;
+    
+                $entry['user'] = [
+                    'name' => $user->name,
+                    'color' => $user->color
+                ];
+    
+                $entry['game'] = [
+                    'name' => $game->name,
+                    'id' => $game->appid
+                ];
+    
+                $data[] = $entry;  
+            }
         }
 
         return Inertia::render('Startpage', ['data' => ['activities' => $data]]);
