@@ -104,7 +104,10 @@
             </div>
             <div class="font-rubik min-h-screen">
                 <div class="ml-2 mr-5">
-                    <div bind:this={cfx} style="width: 100%; height: 600px;" />
+                    <div
+                        bind:this={cfx}
+                        style="width: 100%; height: 600px;"
+                    ></div>
                 </div>
             </div>
         </div>

@@ -1,14 +1,16 @@
 {
-    "name": "laravel/laravel",
+    "name": "joyersch/sad",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "A dashboard for steam achievemnts",
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
-        "inertiajs/inertia-laravel": "^1.3",
-        "laravel/framework": "^11.0",
-        "laravel/tinker": "^2.9"
+        "php": "^8.4",
+        "inertiajs/inertia-laravel": "^1.3.3",
+        "laravel/framework": "^12"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -16,7 +18,7 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
-        "phpunit/phpunit": "^10.5",
+        "phpunit/phpunit": "^11.0",
         "spatie/laravel-ignition": "^2.4"
     },
     "autoload": {
